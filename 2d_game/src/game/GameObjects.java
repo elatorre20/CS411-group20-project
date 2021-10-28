@@ -10,23 +10,25 @@ package game;
 public class GameObjects {
   
   public Ball ball;
-  public GameObject player1;
-  public GameObject player2;
+  public Paddle player1;
+  public Paddle player2;
   public boolean player2CPU; //True if player2 is controlled by the AI, false if it is controlled by a second player
   
   /**
    * 
    * @param xDimension screen window width
    * @param yDimension screen window height
+   * @param difficulty Determines the speed of the ball and paddles,
+   * a higher value will make the game more difficult
    */
-  public GameObjects(float xDimension, float yDimension) {
+  public GameObjects(int xDimension, int yDimension, float difficulty) {
     
     this.player2CPU = false;
-    this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, 1);
-    this.player1 = new GameObject("player1", 50, (yDimension / 2), 50);
-    this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50);
+    this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, difficulty);
+    this.player1 = new Paddle("player1", 50, (yDimension / 2), 50, difficulty * 2);
+    this.player2 = new Paddle("player2", (xDimension-50), (yDimension / 2), 50, difficulty * 2);
     }
-    public GameObjects(String gameType, float xDimension, float yDimension) {
+    public GameObjects(String gameType, int xDimension, int yDimension) {
       if(gameType.toLowerCase() == "1p" || gameType.toLowerCase() == "1 player") {
         this.player2CPU = true;
       }
@@ -36,8 +38,8 @@ public class GameObjects {
       }
       
       this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, 60);
-      this.player1 = new GameObject("player1", 50, (yDimension / 2), 50);
-      this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50);
+      this.player1 = new Paddle("player1", 50, (yDimension / 2), 50, yDimension);
+      this.player2 = new Paddle("player2", (xDimension-50), (yDimension / 2), 50, yDimension);
       }
    
    /**

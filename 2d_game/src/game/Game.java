@@ -11,17 +11,20 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import java.lang.Math;
 
 public class Game extends BasicGame{
   
   public static int windowWidth = 800;
   public static int windowHeight = 800; 
-  public GameObjects gameObjects = new GameObjects(windowWidth, windowHeight);
+  public GameObjects gameObjects = new GameObjects(windowWidth, windowHeight, 5);
   public Ball ball = this.gameObjects.ball;
-  public GameObject player1 = this.gameObjects.player1;
-  public GameObject player2 = this.gameObjects.player2;
+  public Paddle player1 = this.gameObjects.player1; //left player
+  public Paddle player2 = this.gameObjects.player2; //right player
   public static double timeMs = 0;
+  public Input input;
   
   public Game(String title) {
     super(title);
@@ -33,12 +36,25 @@ public class Game extends BasicGame{
   
   public void update(GameContainer window, int delta) throws SlickException {
     timeMs = timeMs + delta;
+    this.input = window.getInput();
+    if(input.isKeyDown(Input.KEY_W)) {
+      this.player1.y = Math.max(this.player1.y - player1.speed, 0 + player1.size/(float)2);
+    }
+    else if(input.isKeyDown(Input.KEY_S)) {
+      this.player1.y = Math.min(this.player1.y + player1.speed, Game.windowHeight - player1.size/(float)2);
+    }
+    if(input.isKeyDown(Input.KEY_UP)) {
+      this.player2.y = Math.max(this.player2.y - player2.speed, 0 + player1.size/(float)2);
+    }
+    else if(input.isKeyDown(Input.KEY_DOWN)) {
+      this.player2.y = Math.min(this.player2.y + player2.speed, Game.windowHeight - player1.size/(float)2);
+    }
     this.ball.update(windowWidth, windowHeight, player1, player2);
   }
   
   public void render(GameContainer window, Graphics g) throws SlickException {
-    g.fillRect((this.ball.x + (this.ball.size /(float)2)), (this.ball.y - (this.ball.size /(float)2)), this.ball.size, this.ball.size);
-    g.fillRect(this.player1.x, (this.player1.y - (this.player1.size/2)), 5, this.player1.size);
+    g.fillRect((this.ball.x - (this.ball.size /(float)2)), (this.ball.y - (this.ball.size /(float)2)), this.ball.size, this.ball.size);
+    g.fillRect(this.player1.x-5, (this.player1.y - (this.player1.size/2)), 5, this.player1.size);
     g.fillRect(this.player2.x, (this.player2.y - (this.player2.size/2)), 5, this.player2.size);
   }
   

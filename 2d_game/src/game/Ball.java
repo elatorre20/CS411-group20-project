@@ -1,5 +1,7 @@
 package game;
 
+import java.lang.Math;
+
 /**
  * The ball
  * <p>
@@ -47,11 +49,22 @@ public class Ball extends GameObject {
     }
   }
   
+  /**
+   * Checks for collisions with the edge of the screen
+   * <p>
+   * Bounces the ball off the top and bottom edges, records a score if the ball 
+   * hits the left or right side of the screen
+   * @param screenWidth
+   * @param screenHeight
+   * @return
+   */
   public int checkEdgeCollision(int screenWidth, int screenHeight) {
     if(this.x <= -this.size) {
+      this.x = screenWidth/(float)2; //placeholder until we sort out scoring behavior
       return 1; //left-side player gains 1 point
     }
     if(this.x >= screenWidth+this.size) {
+      this.x = screenWidth/(float)2; //placeholder until we sort out scoring behavior
       return -1; //right-side player gains 1 point
     }
     if(this.y <= 0 || this.y >= screenHeight) {
@@ -65,9 +78,14 @@ public class Ball extends GameObject {
     for(GameObject i : paddles) {
       if(this.x == i.x) {
         if(this.y >= (i.y-((float)i.size/2)) && this.y <= (i.y+((float)i.size/2))) {
-        	System.out.println("switch");
         	this.xSpeed = -this.xSpeed;
-        	System.out.println(this.x);
+        	float z = (float)Math.random();
+        	if(z <= 0.5) {
+        	  z = (float)Math.random() * 5;
+        	  this.ySpeed += z;
+        	  
+        	}
+        	
         }
       }
     }
