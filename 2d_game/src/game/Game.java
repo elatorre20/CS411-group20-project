@@ -37,7 +37,7 @@ public class Game extends BasicGame{
   }
   
   public void render(GameContainer window, Graphics g) throws SlickException {
-    g.fillRect((this.ball.x - (this.ball.size /2)), (this.ball.y - (this.ball.size /2)), this.ball.size, this.ball.size);
+    g.fillRect((this.ball.x + (this.ball.size /(float)2)), (this.ball.y - (this.ball.size /(float)2)), this.ball.size, this.ball.size);
     g.fillRect(this.player1.x, (this.player1.y - (this.player1.size/2)), 5, this.player1.size);
     g.fillRect(this.player2.x, (this.player2.y - (this.player2.size/2)), 5, this.player2.size);
   }

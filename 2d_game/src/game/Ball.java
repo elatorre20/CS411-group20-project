@@ -34,8 +34,8 @@ public class Ball extends GameObject {
    * @param screenHeight
    */
   public int update(int screenWidth, int screenHeight, GameObject player1, GameObject player2) {
+	this.checkPaddleCollision(player1, player2);
     int score;
-    
     score = this.checkEdgeCollision(screenWidth, screenHeight);
     if(score != 0) {
       return score;
@@ -49,25 +49,26 @@ public class Ball extends GameObject {
   
   public int checkEdgeCollision(int screenWidth, int screenHeight) {
     if(this.x <= -this.size) {
-      System.out.println("1");
       return 1; //left-side player gains 1 point
     }
     if(this.x >= screenWidth+this.size) {
-      System.out.println("-1");
       return -1; //right-side player gains 1 point
     }
     if(this.y <= 0 || this.y >= screenHeight) {
       this.ySpeed = -(this.ySpeed);
     }
-    System.out.println('0');
     return 0;
   }
   
   public void checkPaddleCollision(GameObject player1, GameObject player2) {
     GameObject[] paddles = {player1, player2};
     for(GameObject i : paddles) {
-      if((int)this.x == (int)i.x) {
-        
+      if(this.x == i.x) {
+        if(this.y >= (i.y-((float)i.size/2)) && this.y <= (i.y+((float)i.size/2))) {
+        	System.out.println("switch");
+        	this.xSpeed = -this.xSpeed;
+        	System.out.println(this.x);
+        }
       }
     }
   }

@@ -14,6 +14,13 @@ public class GameObject {
   public float y = 0;
   public float size = 0;
 
+  	/**
+  	 * 
+  	 * @param name The name of the object
+  	 * @param x Object's x coordinate
+  	 * @param y Object's y coordinate
+  	 * @param size Object's size, each object uses this differently
+  	 */
   public GameObject(String name, float x, float y, float size) {
     this.name = name;
     this.x = x;
