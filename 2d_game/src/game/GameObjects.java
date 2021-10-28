@@ -1,8 +1,11 @@
 package game;
 
+/**
+ * @author Group 20 
+ */
 public class GameObjects {
   
-  public GameObject ball;
+  public Ball ball;
   public GameObject player1;
   public GameObject player2;
   public boolean player2CPU; //True if player2 is controlled by the AI, false if it is controlled by a second player
@@ -10,9 +13,9 @@ public class GameObjects {
   public GameObjects(float xDimension, float yDimension) {
     
     this.player2CPU = false;
-    this.ball = new GameObject("ball", (xDimension / 2), (yDimension / 2), 10, 60);
-    this.player1 = new GameObject("player1", 50, (yDimension / 2), 50, 30);
-    this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50, 30);
+    this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, 1);
+    this.player1 = new GameObject("player1", 50, (yDimension / 2), 50);
+    this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50);
     }
     public GameObjects(String gameType, float xDimension, float yDimension) {
       if(gameType.toLowerCase() == "1p" || gameType.toLowerCase() == "1 player") {
@@ -23,9 +26,9 @@ public class GameObjects {
         this.player2CPU = false;
       }
       
-      this.ball = new GameObject("ball", (xDimension / 2), (yDimension / 2), 10, 60);
-      this.player1 = new GameObject("player1", 50, (yDimension / 2), 50, 30);
-      this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50, 30);
+      this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, 60);
+      this.player1 = new GameObject("player1", 50, (yDimension / 2), 50);
+      this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50);
       }
     
    public void setPaddleWidth(float width, int player) {

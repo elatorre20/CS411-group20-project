@@ -11,7 +11,7 @@ public class Game extends BasicGame{
   public static int windowWidth = 800;
   public static int windowHeight = 800; 
   public GameObjects gameObjects = new GameObjects(windowWidth, windowHeight);
-  public GameObject ball = this.gameObjects.ball;
+  public Ball ball = this.gameObjects.ball;
   public GameObject player1 = this.gameObjects.player1;
   public GameObject player2 = this.gameObjects.player2;
   public static double timeMs = 0;
@@ -26,8 +26,7 @@ public class Game extends BasicGame{
   
   public void update(GameContainer window, int delta) throws SlickException {
     timeMs = timeMs + delta;
-    this.ball.x = (this.ball.x + 60*(delta/(float)1000));
-    System.out.println(timeMs);
+    this.ball.update(windowWidth, windowHeight);
   }
   
   public void render(GameContainer window, Graphics g) throws SlickException {
