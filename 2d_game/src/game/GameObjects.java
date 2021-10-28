@@ -1,7 +1,11 @@
 package game;
 
 /**
+ * Container for all game objects
+ * <p>
+ * keeps track of the two paddles, ball, and score digits
  * @author Group 20 
+ * @since 0.1.0
  */
 public class GameObjects {
   
@@ -10,6 +14,11 @@ public class GameObjects {
   public GameObject player2;
   public boolean player2CPU; //True if player2 is controlled by the AI, false if it is controlled by a second player
   
+  /**
+   * 
+   * @param xDimension screen window width
+   * @param yDimension screen window height
+   */
   public GameObjects(float xDimension, float yDimension) {
     
     this.player2CPU = false;
@@ -30,7 +39,13 @@ public class GameObjects {
       this.player1 = new GameObject("player1", 50, (yDimension / 2), 50);
       this.player2 = new GameObject("player2", (xDimension-50), (yDimension / 2), 50);
       }
-    
+   
+   /**
+    * Sets the width of the player paddle
+    * <p>
+    * @param width The width of the paddle
+    * @param player 1 for player1, 2 for player2
+    */
    public void setPaddleWidth(float width, int player) {
      if(player == 1) {
        this.player1.size = width;
@@ -40,6 +55,11 @@ public class GameObjects {
      }
    }
    
+   /**
+    * Sets the size of the ball
+    * <p>
+    * @param size size of the ball
+    */
    public void setBallSize(float size) {
      this.ball.size = size;
    }

@@ -1,5 +1,12 @@
 package game;
 
+/**
+ * Primary game logic
+ * <p>
+ * @author Group 20 
+ * @since 0.1.0
+ */
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -26,7 +33,7 @@ public class Game extends BasicGame{
   
   public void update(GameContainer window, int delta) throws SlickException {
     timeMs = timeMs + delta;
-    this.ball.update(windowWidth, windowHeight);
+    this.ball.update(windowWidth, windowHeight, player1, player2);
   }
   
   public void render(GameContainer window, Graphics g) throws SlickException {

@@ -1,5 +1,12 @@
 package game;
 
+/**
+ * Generic game object class
+ * <p>
+ * @author Group 20 
+ * @since 0.1.0
+ */
+
 public class GameObject {
   
   public String name = "";
