@@ -7,7 +7,7 @@ import org.newdawn.slick.Graphics;
  * Writes the score digits
  * <p>
  * @author Group 20 
- * @since 0.1.0
+ * @since 0.1.4
  */
 
 public class Score {

@@ -49,14 +49,22 @@ public class Game extends BasicGame{
     else if(input.isKeyDown(Input.KEY_DOWN)) {
       this.player2.y = Math.min(this.player2.y + player2.speed, Game.windowHeight - player1.size/(float)2);
     }
-    this.ball.update(windowWidth, windowHeight, player1, player2);
+    int temp;
+    temp = this.ball.update(windowWidth, windowHeight, player1, player2);
+    if(temp == 1) {
+      player2.score++;
+    }
+    if(temp == -1){
+      player1.score++;
+    }
   }
   
   public void render(GameContainer window, Graphics g) throws SlickException {
     g.fillRect((this.ball.x - (this.ball.size /(float)2)), (this.ball.y - (this.ball.size /(float)2)), this.ball.size, this.ball.size);
     g.fillRect(this.player1.x-5, (this.player1.y - (this.player1.size/2)), 5, this.player1.size);
     g.fillRect(this.player2.x, (this.player2.y - (this.player2.size/2)), 5, this.player2.size);
-    Score.drawString(window, g, "123456789", 100, 100);
+    Score.drawString(window, g, Integer.toString(player1.score), 100, 100);
+    Score.drawString(window, g, Integer.toString(player2.score), windowWidth-210, 100);
   }
   
   public static void main(String args[]) throws SlickException {

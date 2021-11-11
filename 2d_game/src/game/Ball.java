@@ -60,12 +60,12 @@ public class Ball extends GameObject {
    */
   public int checkEdgeCollision(int screenWidth, int screenHeight) {
     if(this.x <= -this.size) {
-      this.x = screenWidth/(float)2; //placeholder until we sort out scoring behavior
-      return 1; //left-side player gains 1 point
+      this.x = screenWidth/(float)2;
+      return 1; //right-side player gains 1 point
     }
     if(this.x >= screenWidth+this.size) {
-      this.x = screenWidth/(float)2; //placeholder until we sort out scoring behavior
-      return -1; //right-side player gains 1 point
+      this.x = screenWidth/(float)2;
+      return -1; //left-side player gains 1 point
     }
     if(this.y <= 0 || this.y >= screenHeight) {
       this.ySpeed = -(this.ySpeed);
@@ -73,6 +73,15 @@ public class Ball extends GameObject {
     return 0;
   }
   
+  /**
+   * Checks for collisions with the paddles
+   * <p>
+   * Bounces the ball off the top and bottom edges, records a score if the ball 
+   * hits the left or right side of the screen
+   * @param left player
+   * @param right player
+   * @return
+   */
   public void checkPaddleCollision(GameObject player1, GameObject player2) {
     GameObject[] paddles = {player1, player2};
     for(GameObject i : paddles) {
