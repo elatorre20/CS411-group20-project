@@ -56,6 +56,7 @@ public class Game extends BasicGame{
     g.fillRect((this.ball.x - (this.ball.size /(float)2)), (this.ball.y - (this.ball.size /(float)2)), this.ball.size, this.ball.size);
     g.fillRect(this.player1.x-5, (this.player1.y - (this.player1.size/2)), 5, this.player1.size);
     g.fillRect(this.player2.x, (this.player2.y - (this.player2.size/2)), 5, this.player2.size);
+    Score.drawString(window, g, "123456789", 100, 100);
   }
   
   public static void main(String args[]) throws SlickException {
