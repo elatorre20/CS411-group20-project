@@ -105,5 +105,13 @@ public class Score {
       drawDigit(window, g, d.charAt(i), x +(60*i), y);
     }
   }
+  
+  public static void drawNet(GameContainer window, Graphics g, int step, int gap) {
+    int x = window.getWidth()/2;
+    int y = window.getHeight();
+    for(int i = 0; i < y; i += (step+gap)) {
+      g.fillRect(x-2, i, 4, step);
+    }
+  }
 
 }

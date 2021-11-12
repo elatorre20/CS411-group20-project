@@ -1,6 +1,8 @@
 package game;
 
 import java.lang.Math;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The ball
@@ -13,6 +15,11 @@ public class Ball extends GameObject {
   
   public float xSpeed = 0;
   public float ySpeed = 0;
+  public int screenWidth;
+  public int screenHeight;
+  public Timer timer;
+  public Reset reset;
+  public float speed;
 
   /**
    * 
@@ -22,10 +29,14 @@ public class Ball extends GameObject {
    * @param size Same as super
    * @param speed The speed of the ball, higher value will make the game more difficult
    */
-  public Ball(String name, float x, float y, float size, float speed) {
+  public Ball(String name, float x, float y, float size, float speed, int screenWidth, int screenHeight) {
     super(name, x, y, size);
     this.xSpeed = speed;
     this.ySpeed = 0;
+    this.speed = speed;
+    this.screenHeight = screenHeight;
+    this.screenWidth = screenWidth;
+    this.timer = new Timer();
   }
   
   /**
@@ -53,18 +64,26 @@ public class Ball extends GameObject {
    * Checks for collisions with the edge of the screen
    * <p>
    * Bounces the ball off the top and bottom edges, records a score if the ball 
-   * hits the left or right side of the screen
+   * hits the left or right side of the screen, then sends the ball back to the middle for a reset
    * @param screenWidth
    * @param screenHeight
    * @return
    */
   public int checkEdgeCollision(int screenWidth, int screenHeight) {
     if(this.x <= -this.size) {
-      this.x = screenWidth/(float)2;
+      this.x = (this.screenWidth/(float)2);
+      this.y = (this.screenHeight/(float)2);
+      this.ySpeed = 0;
+      this.xSpeed = 0;
+      this.timer.schedule(new Reset(this), (long)1000);
       return 1; //right-side player gains 1 point
     }
     if(this.x >= screenWidth+this.size) {
-      this.x = screenWidth/(float)2;
+      this.x = (this.screenWidth/(float)2);
+      this.y = (this.screenHeight/(float)2);
+      this.ySpeed = 0;
+      this.xSpeed = 0;
+      this.timer.schedule(new Reset(this), (long)1000);
       return -1; //left-side player gains 1 point
     }
     if(this.y <= 0 || this.y >= screenHeight) {
@@ -93,11 +112,30 @@ public class Ball extends GameObject {
         	  z = (float)Math.random() * 5;
         	  this.ySpeed += z;
         	  
-        	}
-        	
+        	}	
         }
       }
     }
+  }
+  
+  /**
+   * 
+   * @author Group 20 
+   * @since 0.1.7
+   *
+   */
+  private class Reset extends TimerTask{
+    
+    private Ball ball;
+    private Reset(Ball ball) {
+      this.ball = ball;
+    }
+    @Override
+    public void run() {
+      this.ball.ySpeed = 0;
+      this.ball.xSpeed = speed;
+    }
+    
   }
 
 }
