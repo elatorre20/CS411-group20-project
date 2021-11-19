@@ -108,15 +108,14 @@ public class Ball extends GameObject {
   public void checkPaddleCollision(GameObject player1, GameObject player2) {
     GameObject[] paddles = {player1, player2};
     for(GameObject i : paddles) {
-      if((int)this.x == (int)i.x) {
+      if((int)this.x < ((int)i.x+this.speed) && (int)this.x > ((int)i.x-this.speed)) {
         if(this.y >= (i.y-((float)i.size/2)) && this.y <= (i.y+((float)i.size/2))) {
-//          if(this.xSpeed < 0) {
-//            this.xSpeed--;
-//          }
-//          if(this.xSpeed > 0) {
-//            this.xSpeed++;
-//          }
-          System.out.println(this.xSpeed);
+          if(this.xSpeed < 0) {
+            this.xSpeed--;
+          }
+          if(this.xSpeed > 0) {
+            this.xSpeed++;
+          }
         	this.xSpeed = -this.xSpeed;
         	float z = (float)Math.random();
         	if(z <= 0.5) {
