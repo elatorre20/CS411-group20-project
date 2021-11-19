@@ -20,6 +20,7 @@ public class Ball extends GameObject {
   public Timer timer;
   public Reset reset;
   public float speed;
+  public float dir;
 
   /**
    * 
@@ -34,6 +35,7 @@ public class Ball extends GameObject {
     this.xSpeed = speed;
     this.ySpeed = 0;
     this.speed = speed;
+    this.dir = speed;
     this.screenHeight = screenHeight;
     this.screenWidth = screenWidth;
     this.timer = new Timer();
@@ -75,6 +77,7 @@ public class Ball extends GameObject {
       this.y = (this.screenHeight/(float)2);
       this.ySpeed = 0;
       this.xSpeed = 0;
+      this.dir = -this.speed;
       this.timer.schedule(new Reset(this), (long)1000);
       return 1; //right-side player gains 1 point
     }
@@ -83,6 +86,7 @@ public class Ball extends GameObject {
       this.y = (this.screenHeight/(float)2);
       this.ySpeed = 0;
       this.xSpeed = 0;
+      this.dir = this.speed;
       this.timer.schedule(new Reset(this), (long)1000);
       return -1; //left-side player gains 1 point
     }
@@ -104,8 +108,15 @@ public class Ball extends GameObject {
   public void checkPaddleCollision(GameObject player1, GameObject player2) {
     GameObject[] paddles = {player1, player2};
     for(GameObject i : paddles) {
-      if(this.x == i.x) {
+      if((int)this.x == (int)i.x) {
         if(this.y >= (i.y-((float)i.size/2)) && this.y <= (i.y+((float)i.size/2))) {
+//          if(this.xSpeed < 0) {
+//            this.xSpeed--;
+//          }
+//          if(this.xSpeed > 0) {
+//            this.xSpeed++;
+//          }
+          System.out.println(this.xSpeed);
         	this.xSpeed = -this.xSpeed;
         	float z = (float)Math.random();
         	if(z <= 0.5) {
@@ -133,7 +144,7 @@ public class Ball extends GameObject {
     @Override
     public void run() {
       this.ball.ySpeed = 0;
-      this.ball.xSpeed = speed;
+      this.ball.xSpeed = this.ball.dir;
     }
     
   }
