@@ -17,10 +17,11 @@ import java.lang.Math;
 
 public class Game extends BasicGame{
   
-  public static int windowWidth = 800;
-  public static int windowHeight = 800; 
+  public static int windowWidth;
+  public static int windowHeight; 
   public static double timeMs = 0;
   public static boolean onePlayer;
+  public static float difficulty;
   public GameObjects gameObjects;
   public Ball ball;
   public Paddle player1; //left player
@@ -30,7 +31,7 @@ public class Game extends BasicGame{
   
   public Game(String title) {
     super(title);
-    this.gameObjects = new GameObjects(windowWidth, windowHeight, 5, Game.onePlayer);
+    this.gameObjects = new GameObjects(windowWidth, windowHeight, Game.difficulty, Game.onePlayer);
     this.ball = this.gameObjects.ball;
     this.player1 = this.gameObjects.player1;
     this.player2 = this.gameObjects.player2;
@@ -44,17 +45,17 @@ public class Game extends BasicGame{
   
   public void update(GameContainer window, int delta) throws SlickException {
     timeMs = timeMs + delta;
-    this.input = window.getInput();
+    this.input = window.getInput(); //process input for players
     if(input.isKeyDown(Input.KEY_W)) {
       this.player1.y = Math.max(this.player1.y - player1.speed, 0 + player1.size/(float)2);
     }
     else if(input.isKeyDown(Input.KEY_S)) {
       this.player1.y = Math.min(this.player1.y + player1.speed, Game.windowHeight - player1.size/(float)2);
     }
-    if(this.gameObjects.player2CPU == true) {
+    if(this.gameObjects.player2CPU == true) { //if player 2 is controller by AI, allow AI to process move
       this.ai.calculateMove();
     }
-    else {
+    else { //otherwise process input for player 2
       if(input.isKeyDown(Input.KEY_UP)) {
         this.player2.y = Math.max(this.player2.y - player2.speed, 0 + player1.size/(float)2);
       }
@@ -77,8 +78,47 @@ public class Game extends BasicGame{
     g.fillRect(this.player1.x-5, (this.player1.y - (this.player1.size/2)), 5, this.player1.size);
     g.fillRect(this.player2.x, (this.player2.y - (this.player2.size/2)), 5, this.player2.size);
     Score.drawNet(window, g, 50, 10);
-    Score.drawString(window, g, Integer.toString(player1.score), 100, 100);
-    Score.drawString(window, g, Integer.toString(player2.score), windowWidth-210, 100);
+    Score.drawString(window, g, Integer.toString(player1.score), 100, (Game.windowHeight/16) + 50);
+    Score.drawString(window, g, Integer.toString(player2.score), windowWidth-210, (Game.windowHeight/16) +50);
+  }
+  
+  /**
+   * 
+   * @param args the commandline arguments
+   * 
+   * parses the program arguments and sets appropriate values accordingly
+   * 
+   */
+  public static void parseArgs(String[] args) {
+    for(int i = 0; i < args.length; i++) {
+      String s = args[i];
+      if(s.length() > 2) {
+        if(s.substring(0, 3).toLowerCase().equals("-1p")){ //check for 1p game
+          Game.onePlayer = true;
+        }
+      }
+      if(s.length() > 1) {
+        if(s.substring(0, 2).toLowerCase().equals("-d")) { //check for difficulty setting
+          Game.difficulty = Float.parseFloat(args[i+1]);
+        }
+        if(s.substring(0, 2).toLowerCase().equals("-h")) { //check for 
+          Game.windowHeight = Integer.parseInt(args[i+1]);
+        }
+        if(s.substring(0, 2).toLowerCase().equals("-w")) {
+          Game.windowWidth = Integer.parseInt(args[i+1]);
+        }
+      }
+    }//set default values for options not entered
+     //onePlayer already defaults to false when initialized so no need to set it
+    if(Game.difficulty == 0.0) { //default to 5
+      Game.difficulty = (float) 5.0;
+    }
+    if(Game.windowHeight == 0) { //default to 600
+      Game.windowHeight = 600;
+    }
+    if(Game.windowWidth == 0) { //default to 800 (4:3 aspect ratio just like the ancient TVs pong was made for)
+      Game.windowWidth = 800;
+    }
   }
   
   /**
@@ -86,13 +126,11 @@ public class Game extends BasicGame{
    * @param args options: -1p for a 1-player vs computer game
    */
   public static void main(String args[]) throws SlickException {
-    System.out.println("lorem ipsum dolor sit amet");
-    if(args[0].substring(0, 3).toLowerCase().equals("-1p")) {
-      Game.onePlayer = true;
-    }
-    else {
-      Game.onePlayer = false;
-    }
+    System.out.println(Game.difficulty);
+    System.out.println(Game.onePlayer);
+    System.out.println(Game.windowHeight);
+    System.out.println(Game.windowWidth);
+    Game.parseArgs(args);
     AppGameContainer app = new AppGameContainer(new Game("Pong"));
     app.setDisplayMode(windowWidth, windowHeight, false);
     app.setShowFPS(false);
@@ -130,8 +168,8 @@ public class Game extends BasicGame{
      */
     public void calculateMove() {
       float target = this.ball.y;
-      boolean miss = (Math.random()*this.game.gameObjects.difficulty <= 1);
-      if(miss) {
+      boolean miss = (Math.random()*this.game.gameObjects.difficulty <= 2);
+      if(miss) { //if the AI doesnt occasionally not move it would play perfectly and not be beatable
         
       }
       else if(this.player.y < ball.y + (this.player.size/(float)2) - this.ball.size && this.player.y > ball.y - (this.player.size/(float)2) + this.ball.size) {

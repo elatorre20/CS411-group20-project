@@ -24,8 +24,6 @@ public class GameObjects {
    * a higher value will make the game more difficult
    */
   public GameObjects(int xDimension, int yDimension, float difficulty, boolean gameType) {
-    
-    System.out.println(gameType);
     this.player2CPU = gameType;
     this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, difficulty, xDimension, yDimension);
     this.player1 = new Paddle("player1", 50, (yDimension / 2), 50, difficulty * 2);
