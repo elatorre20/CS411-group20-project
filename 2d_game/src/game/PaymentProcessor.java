@@ -13,7 +13,7 @@ import java.math.*;
  */
 public class PaymentProcessor {
   
-  private static String DBAddress = "jdbc:sqlserver://cs411-group-20.database.windows.net;databaseName=customers;user=group20@cs411-group-20;password=BUcs411g20";
+  private static String DBAddress = "jdbc:sqlserver://cs411-group-20.database.windows.net:1433;database=arcade;user=group20@cs411-group-20;password=BUcs411g20;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
   private static String User = "group20";
   private static String Password = "BUcs411g20"; //We are aware it is incredibly poor security practice to just include a password as a plaintext in the source code, this is only for demo purposes.
   public static String testQuery = "SELECT * FROM customers";
