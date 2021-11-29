@@ -22,6 +22,7 @@ public class Game extends BasicGame{
   public static double timeMs = 0;
   public static boolean onePlayer;
   public static float difficulty;
+  public static PaymentProcessor paymentProcessor = new PaymentProcessor();
   public GameObjects gameObjects;
   public Ball ball;
   public Paddle player1; //left player
@@ -126,10 +127,6 @@ public class Game extends BasicGame{
    * @param args options: -1p for a 1-player vs computer game
    */
   public static void main(String args[]) throws SlickException {
-    System.out.println(Game.difficulty);
-    System.out.println(Game.onePlayer);
-    System.out.println(Game.windowHeight);
-    System.out.println(Game.windowWidth);
     Game.parseArgs(args);
     AppGameContainer app = new AppGameContainer(new Game("Pong"));
     app.setDisplayMode(windowWidth, windowHeight, false);
