@@ -2,6 +2,7 @@ package game;
 
 
 import java.sql.*;
+import java.util.Scanner;
 import java.math.*;
 
 
@@ -14,30 +15,56 @@ import java.math.*;
 public class PaymentProcessor {
   
   private static String DBAddress = "jdbc:sqlserver://cs411-group-20.database.windows.net:1433;database=arcade;user=group20@cs411-group-20;password=BUcs411g20;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-  private static String User = "group20";
-  private static String Password = "BUcs411g20"; //We are aware it is incredibly poor security practice to just include a password as a plaintext in the source code, this is only for demo purposes.
-  public static String testQuery = "SELECT * FROM customers";
+  public static String getPlayer = "SELECT * FROM customers WHERE id=";
+  public Scanner shell;
   public Connection connection;
+  private String userId;
+  private float userBalance;
   
   public PaymentProcessor() {
     try {
-//      Class.forName("com.mysql.jdbc.Driver");
-//      this.connection = DriverManager.getConnection(PaymentProcessor.DBAddress, PaymentProcessor.User, PaymentProcessor.Password);
       this.connection = DriverManager.getConnection(PaymentProcessor.DBAddress);
+      this.shell = new Scanner(System.in);
+      System.out.println("enter customer id: ");
+      this.userId = this.shell.nextLine(); //get customer id from console, equivalent to swiping card on physical arcade machine
+      PaymentProcessor.getPlayer = PaymentProcessor.getPlayer+"'"+this.userId+"'"; //create query for the selected player's balance
       Statement s = this.connection.createStatement();
-      ResultSet r = s.executeQuery(PaymentProcessor.testQuery);
-      while(r.next()) {
-        System.out.println("name: " + r.getString("firstName"));
-      }
+      ResultSet r = s.executeQuery(PaymentProcessor.getPlayer);
+      r.next();
+      this.userBalance = r.getFloat("balance");
+      System.out.println(this.userId + " " + String.valueOf(this.userBalance));
+      this.updateBalance(this.userBalance - (float)0.5);
     }
-//    catch(ClassNotFoundException e) {
-//      System.out.println("failed to load JDBC driver");
-//      e.printStackTrace();
-//    } 
     catch (SQLException e) {
       System.out.println("failed to connect to SQL server");
       e.printStackTrace();
     }
+  }
+  
+  public void refreshBalance() {
+    Statement s;
+    try {
+      s = this.connection.createStatement();
+      ResultSet r = s.executeQuery(PaymentProcessor.getPlayer);
+      r.next();
+      this.userBalance = r.getFloat("balance");
+    } catch (SQLException e) {
+      System.out.println("failed to connect to SQL server");
+      e.printStackTrace();
+    } 
+  }
+  
+  public void updateBalance(float newBalance) {
+    Statement s;
+    try {
+      s = this.connection.createStatement();
+      System.out.println("UPDATE customers SET balance=" + String.valueOf(newBalance) +" WHERE id=" + this.userId);
+      s.execute("UPDATE customers SET balance=" + String.valueOf(newBalance) +" WHERE id=" + this.userId);
+      this.refreshBalance();
+    } catch (SQLException e) {
+      System.out.println("failed to connect to SQL server");
+      e.printStackTrace();
+    } 
   }
   
   protected void finalize() {
