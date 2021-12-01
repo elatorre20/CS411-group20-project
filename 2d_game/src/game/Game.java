@@ -91,11 +91,12 @@ public class Game extends BasicGame{
    * 
    */
   public static void parseArgs(String[] args) {
+    Game.onePlayer = true; //default to one-player game
     for(int i = 0; i < args.length; i++) {
       String s = args[i];
       if(s.length() > 2) {
-        if(s.substring(0, 3).toLowerCase().equals("-1p")){ //check for 1p game
-          Game.onePlayer = true;
+        if(s.substring(0, 3).toLowerCase().equals("-2p")){ //check for 1p game
+          Game.onePlayer = false;
         }
       }
       if(s.length() > 1) {
@@ -110,7 +111,6 @@ public class Game extends BasicGame{
         }
       }
     }//set default values for options not entered
-     //onePlayer already defaults to false when initialized so no need to set it
     if(Game.difficulty == 0.0) { //default to 5
       Game.difficulty = (float) 5.0;
     }
