@@ -13,6 +13,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import java.io.File;
 import java.lang.Math;
 
 public class Game extends BasicGame{
@@ -127,6 +128,7 @@ public class Game extends BasicGame{
    * @param args options: -1p for a 1-player vs computer game
    */
   public static void main(String args[]) throws SlickException {
+    System.out.println(System.getProperty("java.library.path"));
     Game.parseArgs(args);
     AppGameContainer app = new AppGameContainer(new Game("Pong"));
     app.setDisplayMode(windowWidth, windowHeight, false);
