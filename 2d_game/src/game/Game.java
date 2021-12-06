@@ -13,8 +13,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import java.io.File;
 import java.lang.Math;
+import java.util.Scanner;
+import java.util.TimerTask;
+import java.util.Timer;
 
 public class Game extends BasicGame{
   
@@ -23,7 +25,13 @@ public class Game extends BasicGame{
   public static double timeMs = 0;
   public static boolean onePlayer;
   public static float difficulty;
+  public static int winScore;
+  public static String player1Name;
+  public static String player2Name;
   public static PaymentProcessor paymentProcessor = new PaymentProcessor();
+  public static Scanner shell = new Scanner(System.in);
+  public static AppGameContainer window;
+  public static Timer timer = new Timer();
   public GameObjects gameObjects;
   public Ball ball;
   public Paddle player1; //left player
@@ -69,9 +77,19 @@ public class Game extends BasicGame{
     temp = this.ball.update(windowWidth, windowHeight, player1, player2);
     if(temp == 1) {
       player2.score++;
+      if(player2.score == Game.winScore) {
+        Game.window.pause();
+        Game.timer.schedule(new Shutdown(), (long)1000);
+        System.out.println(Game.player2Name + " wins!");
+      }
     }
     if(temp == -1){
       player1.score++;
+      if(player1.score == Game.winScore) {
+        Game.window.pause();
+        Game.timer.schedule(new Shutdown(), (long)1000);
+        System.out.println(Game.player1Name + " wins!");
+      }
     }
   }
   
@@ -92,18 +110,18 @@ public class Game extends BasicGame{
    * 
    */
   public static void parseArgs(String[] args) {
-    Game.onePlayer = true; //default to one-player game
+//    Game.onePlayer = true; //default to one-player game
     for(int i = 0; i < args.length; i++) {
       String s = args[i];
-      if(s.length() > 2) {
-        if(s.substring(0, 3).toLowerCase().equals("-2p")){ //check for 1p game
-          Game.onePlayer = false;
-        }
-      }
+//      if(s.length() > 2) {
+//        if(s.substring(0, 3).toLowerCase().equals("-2p")){ //check for 1p game
+//          Game.onePlayer = false;
+//        }
+//      }
       if(s.length() > 1) {
-        if(s.substring(0, 2).toLowerCase().equals("-d")) { //check for difficulty setting
-          Game.difficulty = Float.parseFloat(args[i+1]);
-        }
+//        if(s.substring(0, 2).toLowerCase().equals("-d")) { //check for difficulty setting
+//          Game.difficulty = Float.parseFloat(args[i+1]);
+//        }
         if(s.substring(0, 2).toLowerCase().equals("-h")) { //check for 
           Game.windowHeight = Integer.parseInt(args[i+1]);
         }
@@ -112,15 +130,23 @@ public class Game extends BasicGame{
         }
       }
     }//set default values for options not entered
-    if(Game.difficulty == 0.0) { //default to 5
-      Game.difficulty = (float) 5.0;
-    }
+//    if(Game.difficulty == 0.0) { //default to 5
+//      Game.difficulty = (float) 5.0;
+//    }
     if(Game.windowHeight == 0) { //default to 600
       Game.windowHeight = 600;
     }
     if(Game.windowWidth == 0) { //default to 800 (4:3 aspect ratio just like the ancient TVs pong was made for)
       Game.windowWidth = 800;
     }
+    System.out.println("Enter difficulty (recommended: 6): ");
+    String dif = Game.shell.nextLine();
+    Float diff = Float.parseFloat(dif);
+    Game.difficulty = diff;
+    System.out.println("Enter winning score (recommended 15): ");
+    String wscore = Game.shell.nextLine();
+    int winscore = Integer.parseInt(wscore);
+    Game.winScore = winscore;
   }
   
   /**
@@ -128,9 +154,11 @@ public class Game extends BasicGame{
    * @param args options: -1p for a 1-player vs computer game
    */
   public static void main(String args[]) throws SlickException {
-    System.out.println(System.getProperty("java.library.path"));
+//    System.out.println(System.getProperty("java.library.path"));
     Game.parseArgs(args);
     AppGameContainer app = new AppGameContainer(new Game("Pong"));
+    Game.window = app;
+    app.setForceExit(false);
     app.setDisplayMode(windowWidth, windowHeight, false);
     app.setShowFPS(false);
     app.setTargetFrameRate(60);
@@ -183,6 +211,16 @@ public class Game extends BasicGame{
     }
     
     
+  }
+  
+  private class Shutdown extends TimerTask{
+    
+    private Shutdown() {
+    }
+    @Override
+    public void run() {
+      Game.window.exit();
+    }
     
   }
 

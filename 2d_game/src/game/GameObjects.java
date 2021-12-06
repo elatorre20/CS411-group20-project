@@ -26,8 +26,8 @@ public class GameObjects {
   public GameObjects(int xDimension, int yDimension, float difficulty, boolean gameType) {
     this.player2CPU = gameType;
     this.ball = new Ball("ball", (xDimension / 2), (yDimension / 2), 10, difficulty, xDimension, yDimension);
-    this.player1 = new Paddle("player1", 50, (yDimension / 2), 50, difficulty * 2);
-    this.player2 = new Paddle("player2", (xDimension-50), (yDimension / 2), 50, difficulty * 2);
+    this.player1 = new Paddle("player1", 50, (yDimension / 2), 50, difficulty * 2, Game.player1Name);
+    this.player2 = new Paddle("player2", (xDimension-50), (yDimension / 2), 50, difficulty * 2, Game.player2Name);
     this.difficulty = difficulty;
     }
 
