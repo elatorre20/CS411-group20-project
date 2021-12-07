@@ -18,7 +18,6 @@ public class Ball extends GameObject {
   public int screenWidth;
   public int screenHeight;
   public Timer timer;
-  public Reset reset;
   public float speed;
   public float dir;
 

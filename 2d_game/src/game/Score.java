@@ -12,8 +12,6 @@ import org.newdawn.slick.Graphics;
 
 public class Score {
   
-  public static String digits;
-  public static int score;
   
   /**
    * Draws a block digit, used for score counters

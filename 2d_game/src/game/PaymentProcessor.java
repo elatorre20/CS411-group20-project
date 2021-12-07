@@ -24,8 +24,38 @@ public class PaymentProcessor {
     try {
       this.shell = new Scanner(System.in);
       System.out.println("Two player game? (Y/N): ");
-      char chr = this.shell.nextLine().charAt(0);
-      if(chr == 'Y') {
+      String numOfPlayers;
+      numOfPlayers = this.shell.nextLine().toLowerCase();
+      if(numOfPlayers.equals("admin")) {
+        this.userBalance = 0;
+        this.connection = DriverManager.getConnection(PaymentProcessor.DBAddress);
+        while(this.userBalance < 0.5) {
+          System.out.println("Enter customer name: ");
+          this.userId = this.shell.nextLine().toLowerCase();
+          Statement s = this.connection.createStatement();
+          ResultSet r = s.executeQuery(PaymentProcessor.getPlayer+"'"+this.userId+"'"); //create query for the selected player's balance
+          if(r.next() == false){
+            System.out.println("customer has no account, please select a different customer");
+            continue;
+          }
+          this.userBalance = r.getFloat("balance");
+          System.out.println(this.userId + "'s current balance: " + String.valueOf(this.userBalance));
+          System.out.println("Enter amount to be added to " + this.userId + "'s balance: ");
+          float money;
+          money = this.shell.nextFloat();
+          this.updateBalance(this.userBalance + money);
+          System.out.println(this.userId + "'s new balance: " + String.valueOf(this.userBalance));
+          System.out.println("Value updated successfully. You may now exit the program. ");
+          while(true) {
+            String exitHelper = "";
+            exitHelper = this.shell.nextLine();
+            if(exitHelper.equals("") == false) {
+              System.exit(0);
+            }
+          }
+        }
+      }
+      else if(numOfPlayers.charAt(0) == 'y') {
         Game.onePlayer = false;
       }
       else {

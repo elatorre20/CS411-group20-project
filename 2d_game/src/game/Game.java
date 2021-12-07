@@ -81,6 +81,13 @@ public class Game extends BasicGame{
         Game.window.pause();
         Game.timer.schedule(new Shutdown(), (long)1000);
         System.out.println(Game.player2Name + " wins!");
+        while(true) {
+          String exitHelper = "";
+          exitHelper = Game.shell.nextLine();
+          if(exitHelper.equals("") == false) {
+            System.exit(0);
+          }
+        }
       }
     }
     if(temp == -1){
@@ -89,6 +96,13 @@ public class Game extends BasicGame{
         Game.window.pause();
         Game.timer.schedule(new Shutdown(), (long)1000);
         System.out.println(Game.player1Name + " wins!");
+        while(true) {
+          String exitHelper = "";
+          exitHelper = Game.shell.nextLine();
+          if(exitHelper.equals("") == false) {
+            System.exit(0);
+          }
+        }
       }
     }
   }
@@ -129,6 +143,7 @@ public class Game extends BasicGame{
           Game.windowWidth = Integer.parseInt(args[i+1]);
         }
       }
+      
     }//set default values for options not entered
 //    if(Game.difficulty == 0.0) { //default to 5
 //      Game.difficulty = (float) 5.0;
